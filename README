@@ -1,14 +1,22 @@
 Intended for use with the SC provided USB connector
 
+Tested working on Linux and Windows 10
+
+
 1) Install python
-For Windows 64 bit:
+
+For Windows 64 bit (most likely):
 https://www.python.org/ftp/python/3.9.0/python-3.9.0-amd64.exe
+
+Windows 32-bit:
+https://www.python.org/ftp/python/3.9.0/python-3.9.0.exe
+
+Linux/Mac: DIY
+
 
 2)
 Install the pyserial module (pip install pyserial)
 
+
 3)
 Run python logger.py
-
-
-Tested working on Linux and Windows
