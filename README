@@ -21,4 +21,10 @@ Install the pyserial module (pip install pyserial)
 3)
 Run python logger.py
 In Windows you can double click the logger.py file once python is installed.
+
+You might have to run it twice if you've just plugged in the USB stick or turned car ignition on.
+If it doesn't work the second time then don't keep trying.
+
 If it doesn't work then go to this directory in a command prompt and run "python logger.py" to see what went wrong
+
+If it does fail then please copy and save the text from the Window to help fix this in future.
