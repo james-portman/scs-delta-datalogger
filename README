@@ -3,3 +3,5 @@ Intended for use with the SC provided USB connector
 Install python (depending on your OS)
 Install the pyserial module (pip install pyserial)
 Run python logger.py
+
+Tested working on Linux and Windows
