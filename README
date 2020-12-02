@@ -20,3 +20,5 @@ Install the pyserial module (pip install pyserial)
 
 3)
 Run python logger.py
+In Windows you can double click the logger.py file once python is installed.
+If it doesn't work then go to this directory in a command prompt and run "python logger.py" to see what went wrong
