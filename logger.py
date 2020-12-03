@@ -50,15 +50,14 @@ def getdata(address):
     data = data.decode() # convert from bytes to string
     data = int(data, 16) # load in from a hex string
 
-    if address == "spark":
-        # signed so if spark > 32767 then spark = 65535 - spark; spark = - spark; then * 0.25
+    if address == "final_ignition_advance":
         if data > 32767:
             data = 65535 - data
             data = 0 - data
         data = data * 0.25
 
     elif address == "battery":
-        data=round(data*18/1023, 1)
+        data=round(data * 18 / 1023, 1)
 
     elif address == "tps":
         data = round(data * 0.392156862745098, 1)
@@ -79,13 +78,36 @@ def getdata(address):
     elif address == "accel_enrichment":
         data *= 0.001
 
-    elif address == "injpw":
+    elif address == "injpw" or address == "injpw2" or address == "base_injection_pulse_width":
         data *= 0.001
     elif address == "kmh":
         data /= 10
     elif address == "mph":
         data /= 10
         data *= 0.621371
+    elif address == "closed_loop_control" or address == "closed_loop_control_2":
+        if data > 32767:
+            data = 65535 - data
+            data = 0 - data
+        data *= 0.05
+    elif address == "coolant_temp_correction":
+        data = data / 64 * 100
+    elif address == "intake_air_temp_correction":
+        data = data / 128 * 100
+    elif address == "base_ignition_advance":
+        data = data * 0.25
+    elif address == "lambda_target":
+        data *= 0.01
+    elif address == "lambda_voltage":
+        data /= 1023
+        data *= 5
+    elif address == "oil_temp":
+        data -= 16
+        data *= 0.625
+    elif address == "lambda_adaptation":
+        data *= 50
+        data -= 6400
+        data /= 256
 
     return data
 
@@ -94,10 +116,18 @@ def getdata(address):
 data_addresses = {
 	"accel_enrichment": b'0c02',
     "baro": b'3802',
+    "base_ignition_advance": b'2402',
+    "base_injection_pulse_width": b'2002',
     "battery": b'4002',
+    "closed_loop_control": b'2c02',
+    "closed_loop_control_2": b'2e02',
     "coolant": b'5801',
+    "coolant_temp_correction": b'6601',
+    "final_ignition_advance": b'2602',
     "iat": b'5b01',
     "injpw": b'2202',
+    "injpw2": b'2A02',
+    "intake_air_temp_correction": b'6701',
     "kmh": b'1002',
     "lambda": b'2801',
     # "lambda 2?": b'0A01', # *0.00784313
@@ -106,8 +136,8 @@ data_addresses = {
     "lambda_voltage": b'6402',
     "map": b'0402',
     "mph": b'1002',
+    "oil_temp": b'5901',
     "rpm": b'0002',
-    "spark": b'2602',
     "tps": b'0201',
 
     "_": b'0002'
