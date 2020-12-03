@@ -23,7 +23,7 @@ else:
 
 ser = serial.Serial(port, 19200, timeout=0)  # open serial port
 print(ser.name)         # check which port was really used
-ser.write(b'\x47\x0d\x71\x0d')
+_ = ser.read()
 
 def readline():
     buffer = b''
@@ -143,6 +143,7 @@ data_addresses = {
     "_": b'0002'
 }
 
+ser.write(b'\x47\x0d\x71\x0d')
 response = readline()
 if response == b'www.specialist-components.co.uk':
     print("1) Got SC reply")
@@ -155,60 +156,85 @@ else:
 # get the above just from the USB being plugged in (ecu off)
 # following only works with ECU on
 
-ser.write(b's005200000000\r')
-response = readline()
-if response == b'01':
-    print("2) got ECU reply")
-    pass
-else:
-    print("didn't get 01 reply, something wrong, make sure ignition is on at least")
-    print(response)
-    sys.exit(1)
+# ser.write(b's005200000000\r')
+# response = readline()
+# if response == b'01':
+#     print("2) got ECU reply")
+#     pass
+# else:
+#     print("didn't get 01 reply, something wrong, make sure ignition is on at least")
+#     print(response)
+#     sys.exit(1)
 
-ser.write(b's00534001000020\r')
-print(readline())
+"""
+think there is a special way of talking to the adaptor
+it translates these packets into can messages
+
+for the s packets,
+some of the start section is the CAN ID/address
+
+for b packets - is this a broadcast?
+
+"""
+
+def hex_string_to_ascii(data):
+    # if 0 then end of string
+    return ""
+
+# print("Map name:")
+# ser.write(b's00534001000020\r')
+# print(readline())
 # ecu replies:
-# [b'5', b'3', b'5', b'2', b'6', b'E', b'6', b'9', b'2', b'0', b'4', b'3', b'6', b'F', b'6', b'F', b'7', b'0', b'6', b'5', b'7', b'2', b'2', b'0', b'5', b'3', b'5', b'0', b'6', b'9', b'2', b'0', b'4', b'2', b'6', b'1', b'7', b'3', b'6', b'5', b'2', b'0', b'4', b'D', b'6', b'1', b'7', b'0', b'0', b'0', b'0', b'0', b'0', b'0', b'0', b'0', b'0', b'0', b'0', b'0', b'0', b'0', b'0', b'0']
+# SRni Cooper SPi Base Map
+# [b'53526E6920436F6F706572205350692042617365204D61700000000000000000']
 
-ser.write(b's0053ffffffff\r')
-print(readline())
-# [b'0', b'0', b'0', b'E', b'3', b'A', b'0', b'8']
+# ser.write(b's0053ffffffff\r')
+# print(readline())
+# # b'000E3A08']
+#
+# ser.write(b's0053000e3b5206\r')
+# print(readline())
+# # [b'400047B02000']
 
-ser.write(b's0053000e3b5206\r')
-print(readline())
-# [b'4', b'0', b'0', b'0', b'4', b'7', b'B', b'0', b'2', b'0', b'0', b'0']
+# print("Firmware version:")
+# ser.write(b's0053400047b020\r')
+# print(readline())
+# [b'44656C7461203430302076303033204665622020372032303230000000000000']
+# Delta 400 v003 Feb  7 2020
 
-ser.write(b's0053400047b020\r')
-print(readline())
-# [b'4', b'4', b'6', b'5', b'6', b'C', b'7', b'4', b'6', b'1', b'2', b'0', b'3', b'4', b'3', b'0', b'3', b'0', b'2', b'0', b'7', b'6', b'3', b'0', b'3', b'0', b'3', b'3', b'2', b'0', b'4', b'6', b'6', b'5', b'6', b'2', b'2', b'0', b'2', b'0', b'3', b'7', b'2', b'0', b'3', b'2', b'3', b'0', b'3', b'2', b'3', b'0', b'0', b'0', b'0', b'0', b'0', b'0', b'0', b'0', b'0', b'0', b'0', b'0']
+# print("Calibration password:")
+# ser.write(b's005340011e6a10\r')
+# print(readline())
+# [b'FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF']
+# in UI: ÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿ
 
-ser.write(b's005340011e6a10\r')
-print(readline())
-# [b'F', b'F', b'F', b'F', b'F', b'F', b'F', b'F', b'F', b'F', b'F', b'F', b'F', b'F', b'F', b'F', b'F', b'F', b'F', b'F', b'F', b'F', b'F', b'F', b'F', b'F', b'F', b'F', b'F', b'F', b'F', b'F']
+# notes:
+# Delta 400
+# (blank)
+# (blank)
+# (blank)
 
-ser.write(b's005140010020\r')
-print(readline())
-# < 0017
+# serial number:
+# 1232410192005204810476
 
-ser.write(b's005140010022\r')
-print(readline())
-# < 0000
-
-ser.write(b's005140010026\r')
-print(readline())
-# <0010
-
-ser.write(b's005140010024\r')
-print(readline())
-# ea60
-
-ser.write(b's005140010028\r')
-print(readline())
-# 0ca2
-
-ser.write(b's00514001002a\r')
-print(readline())
-# < 0000
+# ser.write(b's005140010020\r')
+# print(readline())
+# # < 0017
+# ser.write(b's005140010022\r')
+# print(readline())
+# # < 0000
+# ser.write(b's005140010026\r')
+# print(readline())
+# # <0010
+# ser.write(b's005140010024\r')
+# print(readline())
+# # ea60
+# ser.write(b's005140010028\r')
+# print(readline())
+# # 0ca2
+# ser.write(b's00514001002a\r')
+# print(readline())
+# # < 0000
 
 # this this is the start of loop to read gauges
 logfile_name = 'logs/logfile_%s.csv' % int(time.time())
