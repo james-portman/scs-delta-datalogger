@@ -1,5 +1,30 @@
 Intended for use with the SC provided USB connector
 
-Install python (depending on your OS)
+Tested working on Linux and Windows 10
+
+
+1) Install python
+
+For Windows 64 bit (most likely):
+https://www.python.org/ftp/python/3.9.0/python-3.9.0-amd64.exe
+
+Windows 32-bit:
+https://www.python.org/ftp/python/3.9.0/python-3.9.0.exe
+
+Linux/Mac: DIY
+
+
+2)
 Install the pyserial module (pip install pyserial)
+
+
+3)
 Run python logger.py
+In Windows you can double click the logger.py file once python is installed.
+
+You might have to run it twice if you've just plugged in the USB stick or turned car ignition on.
+If it doesn't work the second time then don't keep trying.
+
+If it doesn't work then go to this directory in a command prompt and run "python logger.py" to see what went wrong
+
+If it does fail then please copy and save the text from the Window to help fix this in future.
